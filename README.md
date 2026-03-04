@@ -1,28 +1,28 @@
 # CodexCount
 
-Widget para a barra de menu do macOS que rastreia o consumo de tokens do [Codex CLI](https://github.com/openai/codex) em tempo real.
+macOS menu bar widget that tracks token consumption from the [Codex CLI](https://github.com/openai/codex) in real-time.
 
 ![macOS](https://img.shields.io/badge/macOS-13%2B-blue)
 ![Swift](https://img.shields.io/badge/Swift-5.9-orange)
 
-## Funcionalidades
+## Features
 
-- **Visão diária** — tokens consumidos hoje
-- **Visão semanal** — tokens da semana atual (segunda a domingo)
-- **Visão mensal** — tokens do mês corrente
-- **Filtro por período** — selecione datas de início e fim
-- **Sessões detalhadas** — lista de sessões do dia com horário, projeto e total de tokens
-- **Rate limits** — uso atual dos limites de taxa (input/output tokens por minuto)
-- **Auto-refresh** — atualização automática a cada 15 minutos
-- **Configurável** — seções visíveis personalizáveis + caminho dos logs
+- **Daily view** — tokens consumed today
+- **Weekly view** — tokens for the current week (Monday to Sunday)
+- **Monthly view** — tokens for the current month
+- **Period filter** — select start and end dates
+- **Detailed sessions** — list of sessions of the day with time, project, and total tokens
+- **Rate limits** — current usage of rate limits (input/output tokens per minute)
+- **Auto-refresh** — automatic update every 15 minutes
+- **Configurable** — customizable visible sections + logs path
 
-## Requisitos
+## Requirements
 
-- macOS 13 (Ventura) ou superior
-- Swift 5.9+ (Command Line Tools do Xcode)
-- [Codex CLI](https://github.com/openai/codex) instalado (gera os logs em `~/.codex/sessions/`)
+- macOS 13 (Ventura) or higher
+- Swift 5.9+ (Xcode Command Line Tools)
+- [Codex CLI](https://github.com/openai/codex) installed (saves logs in `~/.codex/sessions/`)
 
-## Instalação
+## Installation
 
 ```bash
 git clone https://github.com/Renzo-Tognella/CodexCount.git
@@ -30,38 +30,38 @@ cd CodexCount
 ./install.sh
 ```
 
-O script compila em modo release e instala o app em `~/Applications/CodexCount.app`.
+The script compiles in release mode and installs the app at `~/Applications/CodexCount.app`.
 
-Para iniciar manualmente:
+To start manually:
 
 ```bash
 open ~/Applications/CodexCount.app
 ```
 
-### Iniciar no login
+### Start at login
 
-Vá em **System Settings → General → Login Items** e adicione `CodexCount.app`.
+Go to **System Settings → General → Login Items** and add `CodexCount.app`.
 
-## Build manual
+## Manual build
 
 ```bash
 swift build -c release
 ```
 
-O binário será gerado em `.build/release/CodexCount`.
+The binary will be generated at `.build/release/CodexCount`.
 
-## Configuração
+## Configuration
 
-Na primeira execução, o app usa o caminho padrão `~/.codex/sessions/`. Para alterar:
+On the first run, the app uses the default path `~/.codex/sessions/`. To change it:
 
-1. Clique no ícone na barra de menu
-2. Vá em **Configurações** (ícone de engrenagem)
-3. Selecione a pasta de sessões do Codex
-4. Ative/desative as seções que deseja visualizar
+1. Click the icon in the menu bar
+2. Go to **Settings** (gear icon)
+3. Select the Codex sessions folder
+4. Enable/disable the sections you want to view
 
-## Como funciona
+## How it works
 
-O Codex CLI salva logs de cada sessão em arquivos `.jsonl` organizados por data:
+The Codex CLI saves logs of each session in `.jsonl` files organized by date:
 
 ```
 ~/.codex/sessions/
@@ -72,19 +72,19 @@ O Codex CLI salva logs de cada sessão em arquivos `.jsonl` organizados por data
               └── rollout-2025-06-15T14-45-00-uuid.jsonl
 ```
 
-Cada arquivo contém eventos `token_count` com uso cumulativo. O CodexCount lê o último evento de cada sessão e agrega os totais por período.
+Each file contains `token_count` events with cumulative usage. CodexCount reads the last event of each session and aggregates the totals by period.
 
-### Detalhes dos tokens
+### Token details
 
-| Campo | Descrição |
-|-------|-----------|
-| Input | Total de tokens de entrada |
-| Cached | Tokens de entrada em cache (subconjunto de input) |
-| Output | Total de tokens de saída |
-| Reasoning | Tokens de raciocínio (subconjunto de output) |
-| Total | Soma de input + output |
+| Field | Description |
+|-------|-------------|
+| Input | Total input tokens |
+| Cached | Cached input tokens (subset of input) |
+| Output | Total output tokens |
+| Reasoning | Reasoning tokens (subset of output) |
+| Total | Sum of input + output |
 
-## Estrutura do projeto
+## Project structure
 
 ```
 codex_count/
@@ -94,20 +94,20 @@ codex_count/
 └── Sources/CodexCount/
     ├── CodexCountApp.swift          # Entry point
     ├── Models/
-    │   └── TokenUsage.swift         # Modelos de dados
+    │   └── TokenUsage.swift         # Data models
     ├── Services/
-    │   ├── LogParser.swift          # Parser de arquivos .jsonl
-    │   ├── SessionFinder.swift      # Busca de arquivos por período
-    │   └── SettingsManager.swift    # Persistência de configurações
+    │   ├── LogParser.swift          # .jsonl files parser
+    │   ├── SessionFinder.swift      # Search files by period
+    │   └── SettingsManager.swift    # Settings persistence
     ├── ViewModels/
-    │   └── TokenViewModel.swift     # Lógica de negócio
+    │   └── TokenViewModel.swift     # Business logic
     ├── Views/
-    │   ├── ContentView.swift        # Interface principal
-    │   └── SettingsView.swift       # Tela de configurações
+    │   ├── ContentView.swift        # Main interface
+    │   └── SettingsView.swift       # Settings screen
     └── Helpers/
-        └── TokenFormatter.swift     # Formatação de números
+        └── TokenFormatter.swift     # Number formatting
 ```
 
-## Licença
+## License
 
 MIT
